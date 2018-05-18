@@ -108,7 +108,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       template: join(sourcePath, 'index.html'),
-      filename: 'index.html'
+      filename: 'index.html',
+      minify: true
     }),
     argv.watch ? new LiveReloadPlugin({
       appendScriptTag: true,
