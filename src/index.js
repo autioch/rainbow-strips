@@ -1,5 +1,7 @@
 import './styles.scss';
-import tests from './tests';
+import simpleDraw from './draw/simpleDraw';
+import drawAndSmooth from './draw/drawAndSmooth';
+import takenFromWeb from './draw/takenFromWeb';
 
 const canvas = document.querySelector('#app-canvas');
 const ctx = canvas.getContext('2d');
@@ -22,12 +24,15 @@ function resizeCanvas() {
   ctx.fillRect(0, 0, width, height);
   ctx.fillStyle = '#0f0';
   ctx.strokeStyle = '#0f0';
+  ctx.lineWidth = 2;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
 }
 
 resizeCanvas();
 
-tests[5](canvas, ctx);
+// simpleDraw(canvas, ctx);
+// drawAndSmooth(canvas, ctx);
+takenFromWeb(canvas, ctx);
 
 window.addEventListener('resize', resizeCanvas);
