@@ -1,7 +1,4 @@
-/* eslint-disable max-statements */
-/* eslint-disable no-shadow */
 /* eslint-disable no-mixed-operators */
-/* eslint-disable max-params */
 
 function getXY(p, start, end) {
   const [startX, startY] = start;
@@ -30,15 +27,15 @@ function getXY(p, start, end) {
 // the Ramer–Douglas–Peucker algorithm
 // referance https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
 // points are and array of arrays consisting of [[x,y],[x,y],...,[x,y]]
-// length is in pixels and is the square of the actual distance.
+// minLength is in pixels and is the square of the actual distance.
 // returns array of points of the same form as the input argument points.
-export default function simplifyLineRDP(points, length) {
+export default function simplifyLineRDP(points, minLength) {
   const newLine = [points[0]];
 
   function simplify(start, end) { // recursize simplifies points from start to end
     const p1 = points[start];
     const p2 = points[end];
-    let maxDist = length;
+    let maxDist = minLength;
     let index = start + 1;
 
     for (let i = start + 1; i < end; i++) {
@@ -52,7 +49,7 @@ export default function simplifyLineRDP(points, length) {
       }
     }
 
-    if (maxDist > length) { // continue simplification while maxDist > length
+    if (maxDist > minLength) { // continue simplification while maxDist > minLength
       if (index - start > 1) {
         simplify(start, index);
       }
