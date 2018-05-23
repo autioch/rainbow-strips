@@ -10,8 +10,8 @@
     "build": "webpack --config webpack.config.js --hide-modules -p",
     "lint": "eslint ./src --fix --ext .js",
     "lint:test": "eslint ./spec --fix --ext .js",
-    "test": "mocha --reporter=list spec/**/*.spec.js",
-    "test:watch": "mocha --reporter=min --watch spec/**/*.spec.js & exit 0"
+    "test": "mocha --compilers js:babel-core/register --reporter=list spec/**/*.spec.js",
+    "test:watch": "mocha --compilers js:babel-core/register --reporter=min --watch spec/**/*.spec.js & exit 0"
   },
   "keywords": [],
   "repository": {
@@ -21,10 +21,17 @@
   "bugs": {
     "url": "https://github.com/Autioch/rainbow-strips/issues"
   },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  },
   "homepage": "https://github.com/Autioch/rainbow-strips#readme",
   "dependencies": {
     "autoprefixer": "8.5.0",
+    "babel-core": "^6.26.3",
     "babel-loader": "7.1.4",
+    "babel-preset-env": "^1.7.0",
     "clean-webpack-plugin": "0.1.19",
     "css-loader": "0.28.11",
     "file-loader": "1.1.11",

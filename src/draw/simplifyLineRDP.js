@@ -1,16 +1,30 @@
 /* eslint-disable max-statements */
 /* eslint-disable no-shadow */
-/* eslint-disable no-var */
-/* eslint-disable func-style */
-/* eslint-disable func-names */
-/* eslint-disable one-var */
-/* eslint-disable sort-vars */
 /* eslint-disable no-mixed-operators */
-/* eslint-disable no-redeclare */
-/* eslint-disable vars-on-top */
-/* eslint-disable no-inner-declarations */
-/* eslint-disable prefer-destructuring */
-/* eslint-disable no-use-before-define */
+/* eslint-disable max-params */
+
+function getXY(p, start, end) {
+  const [startX, startY] = start;
+  const [endX, endY] = end;
+  const [pX, pY] = p;
+  const ddx = endX - startX;
+  const ddy = endY - startY;
+
+  if (ddx !== 0 || ddy !== 0) {
+    const dist = ddx * ddx + ddy * ddy;
+    const t = ((pX - startX) * ddx + (pY - startY) * ddy) / dist;
+
+    if (t > 1) {
+      return [pX - endX, pY - endY];
+    } else if (t > 0) {
+      return [pX - (startX + ddx * t), pY - (startY + ddy * t)];
+    }
+
+    return [pX - startX, pY - startY];
+  }
+
+  return [pX - startX, pY - startY];
+}
 
 // Line simplification based on
 // the Ramer–Douglas–Peucker algorithm
@@ -19,51 +33,19 @@
 // length is in pixels and is the square of the actual distance.
 // returns array of points of the same form as the input argument points.
 export default function simplifyLineRDP(points, length) {
-  var simplify = function(start, end) { // recursize simplifies points from start to end
-    var maxDist,
-        index,
-        i,
-        xx,
-        yy,
-        dx,
-        dy,
-        ddx,
-        ddy,
-        p1,
-        p2,
-        p,
-        t,
-        dist,
-        dist1;
+  const newLine = [points[0]];
 
-    p1 = points[start];
-    p2 = points[end];
-    xx = p1[0];
-    yy = p1[1];
-    ddx = p2[0] - xx;
-    ddy = p2[1] - yy;
-    dist1 = ddx * ddx + ddy * ddy;
-    maxDist = length;
-    for (var i = start + 1; i < end; i++) {
-      p = points[i];
-      if (ddx !== 0 || ddy !== 0) {
-        t = ((p[0] - xx) * ddx + (p[1] - yy) * ddy) / dist1;
-        if (t > 1) {
-          dx = p[0] - p2[0];
-          dy = p[1] - p2[1];
-        } else
-        if (t > 0) {
-          dx = p[0] - (xx + ddx * t);
-          dy = p[1] - (yy + ddy * t);
-        } else {
-          dx = p[0] - xx;
-          dy = p[1] - yy;
-        }
-      } else {
-        dx = p[0] - xx;
-        dy = p[1] - yy;
-      }
-      dist = dx * dx + dy * dy;
+  function simplify(start, end) { // recursize simplifies points from start to end
+    const p1 = points[start];
+    const p2 = points[end];
+    let maxDist = length;
+    let index = start + 1;
+
+    for (let i = start + 1; i < end; i++) {
+      const p = points[i];
+      const [dx, dy] = getXY(p, p1, p2);
+      const dist = dx * dx + dy * dy;
+
       if (dist > maxDist) {
         index = i;
         maxDist = dist;
@@ -79,12 +61,11 @@ export default function simplifyLineRDP(points, length) {
         simplify(index, end);
       }
     }
-  };
-  const end = points.length - 1;
-  var newLine = [points[0]];
+  }
 
-  simplify(0, end);
-  newLine.push(points[end]);
+  simplify(0, points.length - 1);
+
+  newLine.push(points[points.length - 1]);
 
   return newLine;
 }
