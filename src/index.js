@@ -1,7 +1,5 @@
 import './styles.scss';
-import simpleDraw from './draw/simpleDraw';
-import drawAndSmooth from './draw/drawAndSmooth';
-import takenFromWeb from './draw/takenFromWeb';
+import drawAndSmooth from './draw';
 
 const canvas = document.querySelector('#app-canvas');
 const ctx = canvas.getContext('2d');
@@ -20,7 +18,6 @@ function resizeCanvas() {
   canvas.setAttribute('width', width);
   canvas.setAttribute('height', height);
 
-  canvas.fillStyle = '#0f0';
   ctx.fillRect(0, 0, width, height);
   ctx.fillStyle = '#0f0';
   ctx.strokeStyle = '#0f0';
@@ -31,8 +28,6 @@ function resizeCanvas() {
 
 resizeCanvas();
 
-// simpleDraw(canvas, ctx);
-// drawAndSmooth(canvas, ctx);
-takenFromWeb(canvas, ctx);
+drawAndSmooth(canvas, ctx);
 
 window.addEventListener('resize', resizeCanvas);
