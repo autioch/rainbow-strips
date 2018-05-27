@@ -1,0 +1,3 @@
+https://stackoverflow.com/questions/34681457/html5-canvas-bezier-curve-get-all-the-points
+https://stackoverflow.com/questions/17083580/i-want-to-do-animation-of-an-object-along-a-particular-path
+https://stackoverflow.com/questions/7054272/how-to-draw-smooth-curve-through-n-points-using-javascript-html5-canvas
