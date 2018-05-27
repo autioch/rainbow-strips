@@ -29,7 +29,7 @@ const { argv } = require('yargs').options({
 const projectPath = __dirname;
 const sourcePath = join(projectPath, 'src');
 const buildPath = join(projectPath, 'docs');
-const nameSuffix = argv.production ? `${new Date().getTime()}.min` : '';
+const nameSuffix = argv.production ? `[hash].min` : '[hash]';
 
 if (argv.watch) {
   require('serve-local')(buildPath, argv.port);
@@ -42,7 +42,7 @@ module.exports = {
   output: {
     path: buildPath,
     filename: `files/main${nameSuffix}.js`,
-    publicPath: argv.production ? packageJson.name : '/',
+    publicPath: `/${argv.production ? packageJson.name : ''}`,
     pathinfo: false
   },
   resolve: {
@@ -54,15 +54,15 @@ module.exports = {
   },
   module: {
     rules: [
-    //   {
-    //   test: /\.js$/,
-    //   exclude: /node_modules/,
-    //   loader: 'babel-loader',
-    //   query: {
-    //     presets: ['es2015'],
-    //     plugins: ['transform-object-rest-spread']
-    //   }
-    // }, 
+      argv.production ? {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015'],
+          plugins: ['transform-object-rest-spread']
+        }
+      } : undefined,
       {
         test: /\.(ttf|eot|woff)$/i,
         exclude: /node_modules/,
@@ -97,7 +97,7 @@ module.exports = {
               sourceMap: !argv.production
             }
           }]
-      }]
+      }].filter((item) => item !== undefined)
   },
   plugins: [
     new CleanWebpackPlugin([join('docs', '*')], {
@@ -120,7 +120,7 @@ module.exports = {
     argv.production ? new UglifyJsPlugin({
       sourceMap: false
     }) : undefined
-  ].filter((plugin) => plugin !== undefined),
+  ].filter((item) => item !== undefined),
   stats: {
     assetsSort: 'size',
     children: false,
