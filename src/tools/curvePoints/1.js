@@ -69,9 +69,5 @@ export default function getCurvePoints(points, tension = 0.5, numOfSeg = 25) {
   res[rPos++] = points[points.length - 2];
   res[rPos] = points[points.length - 1];
 
-  return chunk(res, 2)
-    .map(([x, y]) => ({
-      x,
-      y
-    }));
+  return chunk(res, 2);
 }
