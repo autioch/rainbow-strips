@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-const testCases = require('./simplifyTestCases');
+const testCases = require('./simplifyLineRDP.cases');
 const { expect } = require('chai');
-const simplifyLineRDP = require('../src/draw/simplifyLineRDP').default;
+const simplifyLineRDP = require('../src/tools/simplifyLineRDP').default;
 
 testCases.forEach((testCase) => {
   testCase.serializedOutput = JSON.stringify(testCase.output);

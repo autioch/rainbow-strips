@@ -1,7 +1,7 @@
 /* eslint-disable no-magic-numbers */
-const testCases = require('./smoothLineCases');
+const testCases = require('./smoothLine.cases');
 const { expect } = require('chai');
-const smoothLine = require('../src/draw/smoothLine').default;
+const smoothLine = require('../src/tools/smooth/performSmooth').default;
 
 testCases.forEach((testCase) => {
   testCase.serializedOutput = JSON.stringify(testCase.output);

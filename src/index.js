@@ -1,11 +1,17 @@
-import { createCanvasManager, simplifyLineRDP, createGetPath, createMarkPoints, createSmoothDraw, performSmooth } from './tools';
+import {
+  createCanvasManager, simplifyLineRDP, createGetPath,
+  createMarkPoints, createSmoothDraw, performSmooth,
+  getCurvePoints, createDrawPixels
+} from './tools';
+import flatten from 'lodash.flatten';
 import './styles.scss';
 
 const canvasManager = createCanvasManager('body');
 const get = () => canvasManager.add().ctx;
 
 const getPath = createGetPath(get(), {
-  width: 3
+  color: '#ddd',
+  width: 10
 });
 
 const markPointsOriginal = createMarkPoints(get(), {
@@ -20,7 +26,12 @@ const markPointsSimplified = createMarkPoints(get(), {
 
 const smoothDraw = createSmoothDraw(get(), {
   color: '#00f',
-  width: 2
+  width: 1
+});
+
+const pixelDraw = createDrawPixels(get(), {
+  color: '#f00',
+  width: 1
 });
 
 const SIMPLIFY_MIN_LENGTH = 10;
@@ -31,8 +42,10 @@ window.addEventListener('mousedown', async (ev) => {
   const points = await getPath(ev);
   const simplified = simplifyLineRDP(points, SIMPLIFY_MIN_LENGTH);
   const smoothed = performSmooth(simplified, SMOOTH_MIN_LENGTH, SMOOTH_ANGLE);
+  const curvePoints = getCurvePoints(flatten(points));
 
   markPointsOriginal(points);
   markPointsSimplified(simplified);
   smoothDraw(smoothed);
+  pixelDraw(curvePoints);
 });

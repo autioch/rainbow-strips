@@ -3,6 +3,7 @@ import createDrawPixels from './createDrawPixels';
 import createGetPath from './createGetPath';
 import createMarkPoints from './createMarkPoints';
 import simplifyLineRDP from './simplifyLineRDP';
+import getCurvePoints from './curvePoints/1';
 import createSmoothDraw from './smooth/createSmoothDraw';
 import performSmooth from './smooth/performSmooth';
 
@@ -11,6 +12,7 @@ export {
   createCanvasManager,
   createMarkPoints,
   simplifyLineRDP,
+  getCurvePoints,
   createSmoothDraw,
   performSmooth,
   createDrawPixels
@@ -21,6 +23,7 @@ export default {
   createCanvasManager,
   createMarkPoints,
   simplifyLineRDP,
+  getCurvePoints,
   performSmooth,
   createSmoothDraw,
   createDrawPixels
