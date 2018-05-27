@@ -53,49 +53,51 @@ module.exports = {
     ]
   },
   module: {
-    rules: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader',
-      query: {
-        presets: ['es2015'],
-        plugins: ['transform-object-rest-spread']
-      }
-    }, {
-      test: /\.(ttf|eot|woff)$/i,
-      exclude: /node_modules/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: 'fonts/[name].[ext]'
+    rules: [
+    //   {
+    //   test: /\.js$/,
+    //   exclude: /node_modules/,
+    //   loader: 'babel-loader',
+    //   query: {
+    //     presets: ['es2015'],
+    //     plugins: ['transform-object-rest-spread']
+    //   }
+    // }, 
+      {
+        test: /\.(ttf|eot|woff)$/i,
+        exclude: /node_modules/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: 'fonts/[name].[ext]'
+          }
         }
-      }
-    }, {
-      test: /\.s?css$/,
-      use: [
-        MiniCssExtractPlugin.loader,
-        {
-          loader: 'css-loader',
-          options: {
-            minimize: argv.production,
-            sourceMap: !argv.production
-          }
-        }, {
-          loader: 'postcss-loader',
-          options: {
-            sourceMap: !argv.production,
-            plugins: () => [autoprefixer({
-              browsers: ['last 2 versions'],
-              cascade: false
-            })]
-          }
-        }, {
-          loader: 'sass-loader',
-          options: {
-            sourceMap: !argv.production
-          }
-        }]
-    }]
+      }, {
+        test: /\.s?css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              minimize: argv.production,
+              sourceMap: !argv.production
+            }
+          }, {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: !argv.production,
+              plugins: () => [autoprefixer({
+                browsers: ['last 2 versions'],
+                cascade: false
+              })]
+            }
+          }, {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: !argv.production
+            }
+          }]
+      }]
   },
   plugins: [
     new CleanWebpackPlugin([join('docs', '*')], {

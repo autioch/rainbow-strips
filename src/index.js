@@ -1,33 +1,38 @@
+import { createCanvasManager, simplifyLineRDP, createGetPath, createMarkPoints, createSmoothDraw, performSmooth } from './tools';
 import './styles.scss';
-import drawAndSmooth from './draw';
 
-const canvas = document.querySelector('#app-canvas');
-const ctx = canvas.getContext('2d');
+const canvasManager = createCanvasManager('body');
+const get = () => canvasManager.add().ctx;
 
-let width;
-let height;
-let ratio;
+const getPath = createGetPath(get(), {
+  width: 3
+});
 
-function resizeCanvas() {
-  width = window.innerWidth;
-  height = window.innerHeight;
-  ratio = window.devicePixelRatio;
+const markPointsOriginal = createMarkPoints(get(), {
+  radius: 5
+});
 
-  canvas.width = width * ratio;
-  canvas.height = height * ratio;
-  canvas.setAttribute('width', width);
-  canvas.setAttribute('height', height);
+const markPointsSimplified = createMarkPoints(get(), {
+  color: '#f00',
+  stroke: false,
+  radius: 3
+});
 
-  ctx.fillRect(0, 0, width, height);
-  ctx.fillStyle = '#0f0';
-  ctx.strokeStyle = '#0f0';
-  ctx.lineWidth = 2;
-  ctx.lineJoin = 'round';
-  ctx.lineCap = 'round';
-}
+const smoothDraw = createSmoothDraw(get(), {
+  color: '#00f',
+  width: 2
+});
 
-resizeCanvas();
+const SIMPLIFY_MIN_LENGTH = 10;
+const SMOOTH_MIN_LENGTH = 19.9;
+const SMOOTH_ANGLE = 0.99;
 
-drawAndSmooth(canvas, ctx);
+window.addEventListener('mousedown', async (ev) => {
+  const points = await getPath(ev);
+  const simplified = simplifyLineRDP(points, SIMPLIFY_MIN_LENGTH);
+  const smoothed = performSmooth(simplified, SMOOTH_MIN_LENGTH, SMOOTH_ANGLE);
 
-window.addEventListener('resize', resizeCanvas);
+  markPointsOriginal(points);
+  markPointsSimplified(simplified);
+  smoothDraw(smoothed);
+});

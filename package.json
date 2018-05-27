@@ -10,8 +10,8 @@
     "build": "webpack --config webpack.config.js --hide-modules -p",
     "lint": "eslint ./src --fix --ext .js",
     "lint:test": "eslint ./spec --fix --ext .js",
-    "test": "mocha --compilers js:babel-core/register --reporter=list spec/**/*.spec.js",
-    "test:watch": "mocha --compilers js:babel-core/register --reporter=min --watch spec/**/*.spec.js & exit 0"
+    "test": "mocha --compilers js:babel-core/register --reporter=list **/*.spec.js",
+    "test:watch": "mocha --compilers js:babel-core/register --reporter=min --watch **/*.spec.js & exit 0"
   },
   "keywords": [],
   "repository": {
