@@ -60,7 +60,13 @@ module.exports = {
         loader: 'babel-loader',
         query: {
           presets: ['es2015'],
-          plugins: ['transform-object-rest-spread']
+          plugins: [
+            'transform-object-rest-spread',
+            ['transform-runtime', {
+              polyfill: false,
+              regenerator: true
+            }]
+          ]
         }
       } : undefined,
       {
