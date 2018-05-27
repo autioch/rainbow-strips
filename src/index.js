@@ -6,22 +6,29 @@ const get = () => canvasManager.add().ctx;
 
 const getPath = createGetPath(get(), {
   color: '#ddd',
-  width: 10
+  width: 8
 });
 
 const markPointsOriginal = createMarkPoints(get(), {
-  radius: 5
+  color: '#0f0',
+  stroke: false,
+  radius: 8
 });
 
 const markPointsSimplified = createMarkPoints(get(), {
   color: '#f00',
   stroke: false,
-  radius: 3
+  radius: 4
 });
 
-const smoothDraw = createSmoothDraw(get(), {
+const smoothDrawPoints = createSmoothDraw(get(), {
+  color: '#f0f',
+  width: 2
+});
+
+const smoothDrawSimplified = createSmoothDraw(get(), {
   color: '#00f',
-  width: 1
+  width: 2
 });
 
 const SIMPLIFY_MIN_LENGTH = 10;
@@ -31,9 +38,11 @@ const SMOOTH_ANGLE = 0.99;
 window.addEventListener('mousedown', async (ev) => {
   const points = await getPath(ev);
   const simplified = simplifyLineRDP(points, SIMPLIFY_MIN_LENGTH);
-  const smoothed = performSmooth(simplified, SMOOTH_MIN_LENGTH, SMOOTH_ANGLE);
+  const smoothedSimplified = performSmooth(simplified, SMOOTH_MIN_LENGTH, SMOOTH_ANGLE);
+  const smoothedNormal = performSmooth(points, SMOOTH_MIN_LENGTH, SMOOTH_ANGLE);
 
   markPointsOriginal(points);
   markPointsSimplified(simplified);
-  smoothDraw(smoothed);
+  smoothDrawPoints(smoothedNormal);
+  smoothDrawSimplified(smoothedSimplified);
 });

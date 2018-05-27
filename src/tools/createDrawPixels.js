@@ -1,12 +1,11 @@
 export default function createDrawPixels(ctx, options = {}) {
-  const { width = 1, height = 1, color = '#aaa' } = options;
-
-  ctx.fillStyle = color;
+  const { width = 1, height = 1 } = options;
 
   return function drawPixels(points) {
     points.forEach((point) => {
       ctx.beginPath();
-      ctx.fillRect(...point, width, height);
+      ctx.fillStyle = point.color;
+      ctx.fillRect(point.xy, point.y, width, height);
     });
   };
 }
